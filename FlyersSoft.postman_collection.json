@@ -1,0 +1,231 @@
+{
+	"info": {
+		"_postman_id": "cd1e96a8-a9ec-4844-a1f9-5c609a6751d2",
+		"name": "FlyersSoft",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8690317"
+	},
+	"item": [
+		{
+			"name": "AddNewUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"Pass123\",\r\n    \"passwordString\" : \"Pass@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7009/User/addNewUser",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7009",
+					"path": [
+						"User",
+						"addNewUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GenerateToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Fill Authorization Token Variable\", function () {\r",
+							"    var data = JSON.parse(responseBody);\r",
+							"    pm.environment.set(\"flyer_token\", data.access_token);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "Pass123",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Pass@123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:7009/tokens/connect",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7009",
+					"path": [
+						"tokens",
+						"connect"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddNewTopUp",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{flyer_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"topupOptionName\": \"AED 100\",\r\n    \"amount\" : 100\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7009/TopUp/addNewTopUpOption",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7009",
+					"path": [
+						"TopUp",
+						"addNewTopUpOption"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetTopUpOptions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7009/TopUp/getTopUpOptions",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7009",
+					"path": [
+						"TopUp",
+						"getTopUpOptions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddNewBeneficiary",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": 1,\r\n    \"beneficiaryName\" : \"My Beneficiary 1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7009/Beneficiary/addNewBeneficiary",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7009",
+					"path": [
+						"Beneficiary",
+						"addNewBeneficiary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUserBeneficiaries",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7009/Beneficiary/getUserBeneficiaries?userId=1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7009",
+					"path": [
+						"Beneficiary",
+						"getUserBeneficiaries"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "InitiateTopUp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userBeneficiaryId\": 1,\r\n    \"topupOptionId\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7009/TopUp/initiateTopUp",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7009",
+					"path": [
+						"TopUp",
+						"initiateTopUp"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
